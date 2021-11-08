@@ -1,0 +1,29 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.batch.rn.batchstore">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme">
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize">
+        <intent-filter>
+            <category android:name="android.intent.category.BROWSABLE" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+            <data android:host="store.com" android:pathPrefix="/articles" android:scheme="batch" />
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>

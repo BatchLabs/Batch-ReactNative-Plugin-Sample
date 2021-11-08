@@ -1,0 +1,37 @@
+name: Build Android and iOS
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build-android:
+      runs-on: ubuntu-latest
+      steps: 
+        - uses: actions/checkout@v2
+        - name: Install npm dependencies
+          run: |
+            npm install
+        - name: Build Android Release
+          run: |
+            cd android && ./gradlew assembleRelease
+
+  build-ios:
+    runs-on: macOS-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: |
+          npm install
+      - name: Install pod dependencies
+        run: |
+          cd ios && pod install
+      - name: Build app
+        run: |
+          xcodebuild clean -workspace BatchStoreReactNative.xcworkspace -scheme BatchStoreReactNative
+          xcodebuild build -workspace BatchStoreReactNative.xcworkspace -scheme BatchStoreReactNative
+
