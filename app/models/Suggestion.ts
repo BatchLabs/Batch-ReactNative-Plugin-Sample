@@ -1,4 +1,4 @@
-import { BatchUser } from "@bam.tech/react-native-batch"
+import { BatchUser } from '@batch.com/react-native-plugin'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export enum DataType {

@@ -10,7 +10,7 @@
 import React, { FunctionComponent } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { RecoilRoot } from 'recoil';
-import { BatchPush } from '@bam.tech/react-native-batch';
+import { BatchPush } from '@batch.com/react-native-plugin';
 import StackNavigator from './components/StackNavigator';
 import { initSuggestions } from './data/SettingsDatasource';
 

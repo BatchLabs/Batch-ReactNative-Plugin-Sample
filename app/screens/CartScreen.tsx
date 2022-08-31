@@ -5,7 +5,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import Article from "../models/Article";
 import { cartArticlesState, cartAmountState } from "../recoil/cart/atoms";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { BatchUser } from "@bam.tech/react-native-batch";
+import { BatchUser } from '@batch.com/react-native-plugin';
 
 const ArticleItem: FunctionComponent<{ article: Article }> = ({ article }) => {
   return (

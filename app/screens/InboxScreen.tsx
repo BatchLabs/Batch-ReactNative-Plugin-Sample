@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from "react";
 import { Alert, Button, FlatList, Pressable, RefreshControl, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
-import { BatchInbox, BatchInboxFetcher, IInboxNotification } from "@bam.tech/react-native-batch";
+import { BatchInbox, BatchInboxFetcher, IInboxNotification } from '@batch.com/react-native-plugin';
 import { useNavigation } from "@react-navigation/core";
 import Swipeout from 'react-native-swipeout';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

@@ -1,4 +1,4 @@
-import { Batch } from "@bam.tech/react-native-batch";
+import { Batch } from '@batch.com/react-native-plugin';
 import { useNavigation } from "@react-navigation/core";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { StyleSheet, Text, View, Switch, Touchable, TouchableOpacity, Pressable } from "react-native";

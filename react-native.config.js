@@ -1,6 +1,6 @@
 module.exports = {
     dependencies: {
-      '@bam.tech/react-native-batch': {
+      '@batch.com/react-native-plugin': {
         platforms: {
           android: {
             packageInstance: 'new RNBatchPackage(this.getApplication())',

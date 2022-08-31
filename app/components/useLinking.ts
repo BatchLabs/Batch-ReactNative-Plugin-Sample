@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Linking } from 'react-native';
-import { BatchPush } from '@bam.tech/react-native-batch';
+import { BatchPush } from '@batch.com/react-native-plugin';
 import ArticlesDatasource from "../data/ArticlesDatasource";
 import { useNavigation } from '@react-navigation/core';
 import { NavigationProp } from '@react-navigation/native';

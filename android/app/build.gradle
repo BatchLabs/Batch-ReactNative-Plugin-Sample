@@ -199,7 +199,6 @@ dependencies {
     // Batch dependencies
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation "com.google.firebase:firebase-messaging"
-    implementation "com.batch.android:batch-sdk:${rootProject.ext.batchSdkVersion}"
 
     // Webp support
     implementation 'com.facebook.fresco:webpsupport:2.5.0'

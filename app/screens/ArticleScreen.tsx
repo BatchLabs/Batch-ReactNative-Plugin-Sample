@@ -1,4 +1,4 @@
-import { BatchUser } from "@bam.tech/react-native-batch";
+import { BatchUser } from '@batch.com/react-native-plugin';
 import React, { FunctionComponent } from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { useSetRecoilState, useRecoilValue } from "recoil";

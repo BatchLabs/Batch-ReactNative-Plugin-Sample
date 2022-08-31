@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StatusBar, StyleSheet, SafeAreaView, FlatList, View, Text, Image, TouchableOpacity } from "react-native";
 import ArticlesDatasource from "../data/ArticlesDatasource";
 import Article from "../models/Article";
-import { BatchUser } from "@bam.tech/react-native-batch";
+import { BatchUser } from '@batch.com/react-native-plugin';
 
 const ArticleItem: FunctionComponent<{ article: Article }> = ({ article }) => {
  
