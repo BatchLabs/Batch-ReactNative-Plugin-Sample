@@ -13,7 +13,9 @@ function StackNavigator() {
     const navigation = useNavigation();
 
     // Setup deeplink handler
-    useLinking(navigation);
+    // This is how you can handles deeplink manually
+    // Here commented because we use react-navigation to handle deeplinks in the App.tsx
+    //useLinking(navigation);
 
     return (
         <Stack.Navigator>

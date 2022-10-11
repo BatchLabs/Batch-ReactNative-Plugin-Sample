@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { cartArticlesState } from "../recoil/cart/atoms";
 import Toast from 'react-native-simple-toast';
+import ArticlesDatasource from '../data/ArticlesDatasource';
 
 const Article: FunctionComponent = ({ route }) => {
 
@@ -11,7 +12,12 @@ const Article: FunctionComponent = ({ route }) => {
   const setCartArticles = useSetRecoilState(cartArticlesState);
 
   // Get article from props
-  const article = route.params.article;
+  let article = route.params.article;
+
+  // Handle param from deeplink
+  if(typeof article === "string") {
+    article = ArticlesDatasource.find(obj => obj.name === article);
+  }
 
   // Checking if this article has been already added in cart
   const alreadyInCart = cartArticles.includes(article)

@@ -13,6 +13,8 @@ import { RecoilRoot } from 'recoil';
 import { BatchPush } from '@batch.com/react-native-plugin';
 import StackNavigator from './components/StackNavigator';
 import { initSuggestions } from './data/SettingsDatasource';
+import { Linking } from 'react-native';
+import ArticlesDatasource from './data/ArticlesDatasource';
 
 const App: FunctionComponent = () => {
 
@@ -21,9 +23,26 @@ const App: FunctionComponent = () => {
   //Ask for notification authorization
   BatchPush.requestNotificationAuthorization();
 
+  // react-navigation deeplinks config
+  const linking = {
+    prefixes: ['batch://store.com'],
+    config: {
+      screens: {
+        Article: 'articles/:article'
+      }
+    },
+    async getInitialURL() {      
+      const initialLink = await BatchPush.getInitialURL();
+      if (initialLink) {
+        return initialLink;
+      }
+      return await Linking.getInitialURL();;
+    },
+  };
+
   return (
     <RecoilRoot>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <StackNavigator />
       </NavigationContainer>
     </RecoilRoot>
