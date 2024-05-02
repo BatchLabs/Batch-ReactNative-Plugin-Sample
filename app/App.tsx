@@ -7,17 +7,15 @@
  *
  * @format
  */
-import React, { FunctionComponent } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { RecoilRoot } from 'recoil';
-import { BatchPush } from '@batch.com/react-native-plugin';
+import React, {FunctionComponent} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {RecoilRoot} from 'recoil';
+import {BatchPush} from '@batch.com/react-native-plugin';
 import StackNavigator from './components/StackNavigator';
-import { initSuggestions } from './data/SettingsDatasource';
-import { Linking } from 'react-native';
-import ArticlesDatasource from './data/ArticlesDatasource';
+import {initSuggestions} from './data/SettingsDatasource';
+import {Linking} from 'react-native';
 
 const App: FunctionComponent = () => {
-
   initSuggestions();
 
   //Ask for notification authorization
@@ -28,15 +26,15 @@ const App: FunctionComponent = () => {
     prefixes: ['batch://store.com'],
     config: {
       screens: {
-        Article: 'articles/:article'
-      }
+        Article: 'articles/:article',
+      },
     },
-    async getInitialURL() {      
+    async getInitialURL() {
       const initialLink = await BatchPush.getInitialURL();
       if (initialLink) {
         return initialLink;
       }
-      return await Linking.getInitialURL();;
+      return await Linking.getInitialURL();
     },
   };
 
