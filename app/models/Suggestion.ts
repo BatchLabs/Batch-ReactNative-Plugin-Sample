@@ -1,69 +1,74 @@
-import { BatchUser } from '@batch.com/react-native-plugin'
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 
 export enum DataType {
-    Attribute,
-    Tag
+  Attribute,
+  Tag,
 }
 
 export default class Suggestion {
+  private readonly _key: string;
+  private readonly _type: DataType;
+  private readonly _name: string;
 
-    private _name: string
-    private _key: string
-    private _value: boolean
-    private _type: DataType
+  constructor(
+    name: string,
+    key: string,
+    defaultValue: boolean,
+    type: DataType,
+  ) {
+    this._name = name;
+    this._key = key;
+    this._value = defaultValue;
+    this._type = type;
+    this.load();
+  }
 
-    constructor(name: string, key: string, defaultValue: boolean, type: DataType) {
-        this._name = name
-        this._key = key
-        this._value = defaultValue
-        this._type = type
-        this.load()
-    }
+  public get name(): string {
+    return this._name;
+  }
 
-    public get name(): string {
-        return this._name
-    }
+  private _value: boolean;
 
-    public get value(): boolean {
-        return this._value
-    }
+  public get value(): boolean {
+    return this._value;
+  }
 
-    public set value(enabled: boolean) {
-        this._value = enabled;
-        this.sync()
-    }
+  public set value(enabled: boolean) {
+    this._value = enabled;
+    this.sync();
+  }
 
-    private sync() {
-        this.persist()
-        this.updateBatchData()
-    }
+  private sync() {
+    this.persist();
+    this.updateBatchData();
+  }
 
-    private persist() {
-        AsyncStorage.setItem(this._key, JSON.stringify(this._value))
-    }
+  private persist() {
+    AsyncStorage.setItem(this._key, JSON.stringify(this._value));
+  }
 
-    private load() {
-        AsyncStorage.getItem(this._key, (error, value) => {
-            if (!error) {
-                if (value) {
-                    this._value = JSON.parse(value);
-                }
-            }
-        })
-    }
-
-    private updateBatchData() {
-        const editor = BatchUser.editor()
-        if (this._type == DataType.Attribute) {
-            editor.setAttribute(this._key, this._value)
-        } else {
-            if(this._value === true){
-                editor.addTag("suggestion_topics", this._key)
-            } else {
-                editor.removeTag("suggestion_topics", this._key)
-            }
+  private load() {
+    AsyncStorage.getItem(this._key, (error, value) => {
+      if (!error) {
+        if (value) {
+          this._value = JSON.parse(value);
         }
-        editor.save()
+      }
+    });
+  }
+
+  private updateBatchData() {
+    const editor = BatchProfile.editor();
+    if (this._type === DataType.Attribute) {
+      editor.setAttribute(this._key, this._value);
+    } else {
+      if (this._value) {
+        editor.addToArray('suggestion_topics', this._key);
+      } else {
+        editor.removeFromArray('suggestion_topics', this._key);
+      }
     }
+    editor.save();
+  }
 }

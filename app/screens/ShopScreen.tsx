@@ -1,36 +1,44 @@
-import React, { FunctionComponent } from "react"
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar, StyleSheet, SafeAreaView, FlatList, View, Text, Image, TouchableOpacity } from "react-native";
-import ArticlesDatasource from "../data/ArticlesDatasource";
-import Article from "../models/Article";
-import { BatchUser } from '@batch.com/react-native-plugin';
+import React, {FunctionComponent} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {
+  FlatList,
+  Image,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import ArticlesDatasource from '../data/ArticlesDatasource';
+import Article from '../models/Article';
+import {BatchEventAttributes} from '@batch.com/react-native-plugin';
+import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 
-const ArticleItem: FunctionComponent<{ article: Article }> = ({ article }) => {
- 
+const ArticleItem: FunctionComponent<{article: Article}> = ({article}) => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    BatchUser.trackEvent("ARTICLE_VIEW", article.name);
-    navigation.navigate('Article', { article: article })
-  }
+    BatchProfile.trackEvent(
+      'ARTICLE_VIEW',
+      new BatchEventAttributes().put('$label', article.name),
+    );
+    navigation.navigate('Article', {article: article});
+  };
 
   return (
     <TouchableOpacity style={styles.item} onPress={onPress}>
       <View style={styles.item}>
-        <Image
-          style={styles.picture}
-          source={article.picture}
-        />
+        <Image style={styles.picture} source={article.picture} />
         <Text style={styles.title}>{article.name}</Text>
         <Text>{article.price}€</Text>
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const Shop: FunctionComponent = () => {
-
-  const renderItem = ({ item }: { item: Article }) => (
+  const renderItem = ({item}: {item: Article}) => (
     <ArticleItem article={item} />
   );
 
@@ -47,7 +55,7 @@ const Shop: FunctionComponent = () => {
       />
     </SafeAreaView>
   );
-}
+};
 
 export default Shop;
 

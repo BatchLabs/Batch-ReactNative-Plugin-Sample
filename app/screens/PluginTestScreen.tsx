@@ -1,6 +1,6 @@
 import {
   Batch,
-  BatchEventData,
+  BatchEventAttributes,
   BatchMessaging,
   BatchPush,
   BatchUser,
@@ -19,6 +19,8 @@ import {
   Text,
   View,
 } from 'react-native';
+import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
+import {BatchEmailSubscriptionState} from '@batch.com/react-native-plugin/dist/BatchProfileAttributeEditor';
 
 const PluginTests: FunctionComponent = () => {
   const [pushToken, setPushToken] = useState('');
@@ -64,57 +66,95 @@ const PluginTests: FunctionComponent = () => {
     getData();
   }, [getData]);
 
-  const testCustomEvent = () => {
-    const eventData = new BatchEventData();
-    eventData.put('string', 'bar');
-    eventData.put('bool', true);
-    eventData.put('int', 1);
-    eventData.put('double', 2.3);
-    eventData.putURL('url', 'https://example.com/test');
-    eventData.putDate(
-      'date',
-      new Date('July 20, 69 00:20:18 GMT+00:00').getTime(),
+  const testCustomEvent = async () => {
+    const eventData = new BatchEventAttributes();
+    eventData
+      .put(
+        'delivery_address',
+        new BatchEventAttributes()
+          .put('number', 43)
+          .put('street', 'Rue Beaubourg')
+          .put('zip_code', 75003)
+          .put('city', 'Paris')
+          .put('country', 'France'),
+      )
+      .put('number', 43)
+      .putDate('date', new Date().getTime())
+      .put('items_list', [
+        new BatchEventAttributes()
+          .put('name', 'Basic Tee')
+          .put('size', 'M')
+          .put('price', 23.99)
+          .putURL('item_url', 'https://batch-store.com/basic-tee')
+          .putURL(
+            'item_image',
+            'https://batch-store.com/basic-tee/black/image.png',
+          )
+          .put('in_sales', true)
+          .put(
+            'level_2',
+            new BatchEventAttributes()
+              .put('att_1', 'truc')
+              .put(
+                'level_3',
+                new BatchEventAttributes().put('att_2', 'machin'),
+              ),
+          ),
+        new BatchEventAttributes()
+          .put('name', 'Short socks pack x3')
+          .put('size', '38-40')
+          .put('price', 15.99)
+          .putURL('item_url', 'https://batch-store.com/short-socks-pack-x3')
+          .putURL(
+            'item_image',
+            'https://batch-store.com/short-socks-pack-x3/image.png',
+          )
+          .put('in_sales', false),
+      ])
+      .put('metadata', ['first_purchase', 'apple_pay'])
+      .put('$label', 'legacy_label')
+      .put('$tags', ['tag1', 'tag2']);
+    BatchProfile.trackEvent('validated_purchase', eventData).catch(e =>
+      console.log(e),
     );
-    eventData.addTag('tag1');
-    eventData.addTag('tag1').addTag('tag2');
-    BatchUser.trackEvent('test_event', 'test_label', eventData);
+
     const location = {
       latitude: 0.4,
       longitude: 0.523232,
     };
-    BatchUser.trackLocation(location);
-    BatchUser.trackTransaction(0.34, {});
+    BatchProfile.trackLocation(location);
   };
 
-  const testCustomData = () => {
-    const editor = BatchUser.editor();
+  const testCustomData = async () => {
+    BatchProfile.identify('react-native-test-user-id');
+    const editor = BatchProfile.editor();
     editor
-      .setIdentifier('test_user')
-      .setAttribute('bootl', true)
+      .setAttribute('bootl', false)
       .setAttribute('string', 'bar')
-      .setDateAttribute(
-        'date',
-        new Date('July 20, 69 00:20:18 GMT+00:00').getTime(),
-      )
+      .setDateAttribute('date', new Date().getTime())
       .setURLAttribute('url', 'https://example.com/test')
       .setAttribute('int', 1)
       .setAttribute('double', 2.3)
-      .addTag('push_optin', 'foot')
-      .addTag('push_optin', 'rugby')
+      .setAttribute('push_optin', ['opt1', 'opt2'])
+      .addToArray('push_optin', ['foot', 'rugby'])
+      .addToArray('push_optin_cars', 'f1')
+      .removeFromArray('push_optin_cars', ['f2', 'f3'])
       .setLanguage('pt')
       .setRegion('BR')
+      .setEmailAddress('test@batch.com')
+      .setEmailMarketingSubscription(BatchEmailSubscriptionState.SUBSCRIBED)
       .save();
+    BatchProfile.identify(null);
     getData();
   };
 
   const resetCustomData = () => {
-    BatchUser.editor()
-      .setIdentifier(null)
+    BatchProfile.editor()
+      .setEmailAddress(null)
       .setRegion(null)
       .setLanguage(null)
-      .clearAttributes()
-      .clearTags()
       .save();
+    BatchUser.clearInstallationData();
     getData();
   };
 
@@ -156,6 +196,18 @@ const PluginTests: FunctionComponent = () => {
         </View>
         <View style={styles.margins}>
           <Button
+            title="FG Notif ON"
+            onPress={() => BatchPush.setShowForegroundNotification(true)}
+          />
+        </View>
+        <View style={styles.margins}>
+          <Button
+            title="FG Notif OFF"
+            onPress={() => BatchPush.setShowForegroundNotification(false)}
+          />
+        </View>
+        <View style={styles.margins}>
+          <Button
             title="Show pending message"
             onPress={() => BatchMessaging.showPendingMessage()}
           />
@@ -165,6 +217,12 @@ const PluginTests: FunctionComponent = () => {
         </View>
         <View style={styles.margins}>
           <Button title="Opt-out" onPress={() => Batch.optOut()} />
+        </View>
+        <View style={styles.margins}>
+          <Button
+            title="Is Opted-Out"
+            onPress={async () => console.log(await Batch.isOptedOut())}
+          />
         </View>
         <View style={styles.margins}>
           <Button

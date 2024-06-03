@@ -14,7 +14,8 @@ import {useRecoilValue, useSetRecoilState} from 'recoil';
 import Article from '../models/Article';
 import {cartAmountState, cartArticlesState} from '../recoil/cart/atoms';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {BatchUser} from '@batch.com/react-native-plugin';
+import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
+import {BatchEventAttributes} from '@batch.com/react-native-plugin';
 
 const ArticleItem: FunctionComponent<{article: Article}> = ({article}) => {
   return (
@@ -44,12 +45,14 @@ const Cart: FunctionComponent = () => {
   const navigation = useNavigation();
 
   const clearCart = () => {
-    setCartArticles(oldCartArticles => []);
+    setCartArticles(() => []);
   };
 
   const checkout = () => {
-    BatchUser.trackEvent('CHECKOUT');
-    BatchUser.trackTransaction(cartAmount, {});
+    BatchProfile.trackEvent(
+      'CHECKOUT',
+      new BatchEventAttributes().put('amount', cartAmount),
+    ).catch(e => console.log(e));
     clearCart();
   };
 
@@ -78,7 +81,7 @@ const Cart: FunctionComponent = () => {
         data={cartArticles}
         renderItem={renderItem}
         style={{flex: 1}}
-        contentContainerStyle={cartAmount == 0 && styles.contentContainer}
+        contentContainerStyle={cartAmount === 0 && styles.contentContainer}
         keyExtractor={(item, index) => item.name + index}
         ListEmptyComponent={EmptyContainer}
       />
@@ -87,7 +90,7 @@ const Cart: FunctionComponent = () => {
         <Button
           title="Proceed to checkout"
           color="#8bc34a"
-          disabled={cartAmount == 0}
+          disabled={cartAmount === 0}
           onPress={checkout}
         />
       </View>

@@ -1,10 +1,11 @@
-import {BatchUser} from '@batch.com/react-native-plugin';
+import {BatchEventAttributes} from '@batch.com/react-native-plugin';
 import React, {FunctionComponent} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {cartArticlesState} from '../recoil/cart/atoms';
 import Toast from 'react-native-simple-toast';
 import ArticlesDatasource from '../data/ArticlesDatasource';
+import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 
 const Article: FunctionComponent = ({route}) => {
   const cartArticles = useRecoilValue(cartArticlesState);
@@ -23,7 +24,10 @@ const Article: FunctionComponent = ({route}) => {
 
   const onClick = () => {
     // Tracking batch event
-    BatchUser.trackEvent('ADD_TO_CART', article.name);
+    BatchProfile.trackEvent(
+      'ADD_TO_CART',
+      new BatchEventAttributes().put('$label', article.name),
+    );
 
     // Adding article to the store
     setCartArticles(oldCartArticles => [...oldCartArticles, article]);
