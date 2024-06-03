@@ -59,6 +59,10 @@ const Settings: FunctionComponent = () => {
       <SwitchSetting suggestion={suggestions.other_content} />
 
       <SettingsCategory title="Advanced" />
+      <TextSetting
+        title="Data Collection"
+        onPress={() => navigation.navigate('Data Collection')}
+      />
       <TextSetting title="Batch Debug" onPress={() => Batch.showDebugView()} />
       <TextSetting
         title="RN plugin tests"

@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Article from '../screens/ArticleScreen';
 import PluginTests from '../screens/PluginTestScreen';
 import BottomBarNavigator from './BottomBarNavigator';
-//import {useNavigation} from '@react-navigation/core';
+import DataCollectionScreen from '../screens/DataCollectionScreen.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +22,7 @@ function StackNavigator() {
         options={{headerShown: false}}
       />
       <Stack.Screen name="Article" component={Article} />
+      <Stack.Screen name="Data Collection" component={DataCollectionScreen} />
       <Stack.Screen name="Plugin Tests" component={PluginTests} />
     </Stack.Navigator>
   );
