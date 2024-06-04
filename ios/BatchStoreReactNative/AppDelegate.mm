@@ -12,7 +12,6 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   [RNBatch start];
-  [BatchUNUserNotificationCenterDelegate registerAsDelegate];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
