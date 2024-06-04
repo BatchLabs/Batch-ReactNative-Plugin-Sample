@@ -182,41 +182,64 @@ const PluginTests: FunctionComponent = () => {
         <View style={styles.margins}>
           <Button title="Reset custom data" onPress={resetCustomData} />
         </View>
-        <View style={styles.margins}>
-          <Button
-            title="DnD ON"
-            onPress={() => BatchMessaging.setNotDisturbed(true)}
-          />
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={styles.margins}>
+            <Button
+              title="Login"
+              onPress={() => BatchProfile.identify('react-native-test-user-id')}
+            />
+          </View>
+          <View style={styles.margins}>
+            <Button
+              title="Logout"
+              onPress={() => BatchProfile.identify(null)}
+            />
+          </View>
         </View>
-        <View style={styles.margins}>
-          <Button
-            title="DnD OFF"
-            onPress={() => BatchMessaging.setNotDisturbed(false)}
-          />
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={styles.margins}>
+            <Button
+              title="DnD ON"
+              onPress={() => BatchMessaging.setNotDisturbed(true)}
+            />
+          </View>
+          <View style={styles.margins}>
+            <Button
+              title="DnD OFF"
+              onPress={() => BatchMessaging.setNotDisturbed(false)}
+            />
+          </View>
         </View>
-        <View style={styles.margins}>
-          <Button
-            title="FG Notif ON"
-            onPress={() => BatchPush.setShowForegroundNotification(true)}
-          />
-        </View>
-        <View style={styles.margins}>
-          <Button
-            title="FG Notif OFF"
-            onPress={() => BatchPush.setShowForegroundNotification(false)}
-          />
-        </View>
+        {Platform.OS === 'ios' && (
+          <View
+            style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+            <View style={styles.margins}>
+              <Button
+                title="FG Notif ON"
+                onPress={() => BatchPush.setShowForegroundNotification(true)}
+              />
+            </View>
+            <View style={styles.margins}>
+              <Button
+                title="FG Notif OFF"
+                onPress={() => BatchPush.setShowForegroundNotification(false)}
+              />
+            </View>
+          </View>
+        )}
         <View style={styles.margins}>
           <Button
             title="Show pending message"
             onPress={() => BatchMessaging.showPendingMessage()}
           />
         </View>
-        <View style={styles.margins}>
-          <Button title="Opt-in" onPress={() => Batch.optIn()} />
-        </View>
-        <View style={styles.margins}>
-          <Button title="Opt-out" onPress={() => Batch.optOut()} />
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={styles.margins}>
+            <Button title="Opt-in" onPress={() => Batch.optIn()} />
+          </View>
+          <View style={styles.margins}>
+            <Button title="Opt-out" onPress={() => Batch.optOut()} />
+          </View>
         </View>
         <View style={styles.margins}>
           <Button
