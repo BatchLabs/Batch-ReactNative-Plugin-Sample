@@ -17,6 +17,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
@@ -25,9 +26,9 @@ import {BatchEmailSubscriptionState} from '@batch.com/react-native-plugin/dist/B
 const PluginTests: FunctionComponent = () => {
   const [pushToken, setPushToken] = useState('');
   const [installationID, setInstallationID] = useState('');
-  const [identifier, setIdentifier] = useState<String | undefined>('');
-  const [region, setRegion] = useState<String | undefined>('');
-  const [language, setLanguage] = useState<String | undefined>('');
+  const [identifier, setIdentifier] = useState<string | undefined>('');
+  const [region, setRegion] = useState<string | undefined>('');
+  const [language, setLanguage] = useState<string | undefined>('');
 
   const getInstallationId = async () => {
     const iid = await BatchUser.getInstallationID();
@@ -45,13 +46,11 @@ const PluginTests: FunctionComponent = () => {
   };
 
   const getRegion = async () => {
-    const region = await BatchUser.getRegion();
-    setRegion(region);
+    setRegion(await BatchUser.getRegion());
   };
 
   const getLanguage = async () => {
-    const language = await BatchUser.getLanguage();
-    setLanguage(language);
+    setLanguage(await BatchUser.getLanguage());
   };
 
   const getData = useCallback(async () => {
@@ -113,7 +112,7 @@ const PluginTests: FunctionComponent = () => {
       ])
       .put('metadata', ['first_purchase', 'apple_pay'])
       .put('$label', 'legacy_label')
-      .put('$tags', ['tag1', 'tag2']);
+      .put('$tags', ['first_purchase', 'in_promo']);
     BatchProfile.trackEvent('validated_purchase', eventData).catch(e =>
       console.log(e),
     );
@@ -126,7 +125,6 @@ const PluginTests: FunctionComponent = () => {
   };
 
   const testCustomData = async () => {
-    BatchProfile.identify('react-native-test-user-id');
     const editor = BatchProfile.editor();
     editor
       .setAttribute('bootl', false)
@@ -144,18 +142,17 @@ const PluginTests: FunctionComponent = () => {
       .setEmailAddress('test@batch.com')
       .setEmailMarketingSubscription(BatchEmailSubscriptionState.SUBSCRIBED)
       .save();
-    BatchProfile.identify(null);
-    getData();
+    await getData();
   };
 
-  const resetCustomData = () => {
+  const resetCustomData = async () => {
     BatchProfile.editor()
       .setEmailAddress(null)
       .setRegion(null)
       .setLanguage(null)
       .save();
     BatchUser.clearInstallationData();
-    getData();
+    await getData();
   };
 
   return (
@@ -183,16 +180,24 @@ const PluginTests: FunctionComponent = () => {
           <Button title="Reset custom data" onPress={resetCustomData} />
         </View>
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <TextInput
+            placeholder={identifier || 'logged-out'}
+            onChangeText={newText => setIdentifier(newText)}
+            defaultValue={identifier}
+          />
           <View style={styles.margins}>
             <Button
               title="Login"
-              onPress={() => BatchProfile.identify('react-native-test-user-id')}
+              onPress={() => BatchProfile.identify(identifier || null)}
             />
           </View>
           <View style={styles.margins}>
             <Button
               title="Logout"
-              onPress={() => BatchProfile.identify(null)}
+              onPress={() => {
+                BatchProfile.identify(null);
+                setIdentifier(undefined);
+              }}
             />
           </View>
         </View>
