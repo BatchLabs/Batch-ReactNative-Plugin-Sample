@@ -21,7 +21,10 @@ import {
   View,
 } from 'react-native';
 import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
-import {BatchEmailSubscriptionState} from '@batch.com/react-native-plugin/dist/BatchProfileAttributeEditor';
+import {
+  BatchEmailSubscriptionState,
+  BatchSMSSubscriptionState,
+} from '@batch.com/react-native-plugin/dist/BatchProfileAttributeEditor';
 
 const PluginTests: FunctionComponent = () => {
   const [pushToken, setPushToken] = useState('');
@@ -141,6 +144,8 @@ const PluginTests: FunctionComponent = () => {
       .setRegion('BR')
       .setEmailAddress('test@batch.com')
       .setEmailMarketingSubscription(BatchEmailSubscriptionState.SUBSCRIBED)
+      .setPhoneNumber('+33688774455')
+      .setSMSMarketingSubscription(BatchSMSSubscriptionState.SUBSCRIBED)
       .save();
     await getData();
   };
@@ -148,6 +153,7 @@ const PluginTests: FunctionComponent = () => {
   const resetCustomData = async () => {
     BatchProfile.editor()
       .setEmailAddress(null)
+      .setPhoneNumber(null)
       .setRegion(null)
       .setLanguage(null)
       .save();
