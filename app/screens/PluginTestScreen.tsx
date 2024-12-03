@@ -2,6 +2,7 @@ import {
   Batch,
   BatchEventAttributes,
   BatchMessaging,
+  BatchProfile,
   BatchPush,
   BatchUser,
 } from '@batch.com/react-native-plugin';
@@ -20,7 +21,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 import {
   BatchEmailSubscriptionState,
   BatchSMSSubscriptionState,

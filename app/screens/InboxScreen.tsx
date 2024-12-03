@@ -144,6 +144,12 @@ const Inbox: FunctionComponent = () => {
       }
     };
 
+    const displayLandingMessage = () => {
+      if (fetcher && item.hasLandingMessage) {
+        fetcher.displayNotificationLandingMessage(item.identifier);
+      }
+    };
+
     const renderLeftActions = (
       progress: Animated.AnimatedInterpolation<number>,
       dragX: Animated.AnimatedInterpolation<number>,
@@ -202,14 +208,16 @@ const Inbox: FunctionComponent = () => {
         rightThreshold={40}
         renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}>
-        <View style={styles.itemContent}>
-          <Icon name={icon} size={20} />
-          <View style={styles.item}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.price} numberOfLines={1}>
-              {item.body}
-            </Text>
-          </View>
+        <View>
+          <Pressable style={styles.itemContent} onPress={displayLandingMessage}>
+            <Icon name={icon} size={20} />
+            <View style={styles.item}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.price} numberOfLines={1}>
+                {item.body}
+              </Text>
+            </View>
+          </Pressable>
         </View>
       </Swipeable>
     );
