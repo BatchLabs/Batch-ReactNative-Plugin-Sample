@@ -1166,10 +1166,10 @@
     "@babel/helper-validator-identifier" "^7.24.5"
     to-fast-properties "^2.0.0"
 
-"@batch.com/react-native-plugin@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@batch.com/react-native-plugin/-/react-native-plugin-9.0.0.tgz#bf7956d790ec4a75d80d4f96a4c08a5b7a93be92"
-  integrity sha512-vORJaonYtvKS1VDcZh3LZRaaHO6N5WO1A+8icbef9jKbnlKRYBPjeMl5p1zjUTM6a0GtJX5rs8hN+Emk4uvv1g==
+"@batch.com/react-native-plugin@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@batch.com/react-native-plugin/-/react-native-plugin-10.0.0.tgz#77ca8daa3a0fc4e6c14305e757a576338af233c7"
+  integrity sha512-F2AIawHXTRkP0PjrT1pgqCoS6jTDCJWhg1A+vG+HG4uCnO7BR5JMwoS7Sf55ojQmPansuLLr736fPPHyAwDjiA==
 
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
