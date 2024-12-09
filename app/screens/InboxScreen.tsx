@@ -108,9 +108,10 @@ const Inbox: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    BatchInbox.getFetcher({maxPageSize: 20}).then((f: BatchInboxFetcher) =>
-      setFetcher(f),
-    );
+    BatchInbox.getFetcher({maxPageSize: 20}).then((f: BatchInboxFetcher) => {
+      f.setFilterSilentNotifications(false);
+      setFetcher(f);
+    });
   }, []);
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const Inbox: FunctionComponent = () => {
 
   const renderItem = ({item}: {item: IInboxNotification}) => {
     const icon = item.isUnread ? 'email' : 'email-open';
-
+    const silentIcon = item.isSilent ? 'volume-mute' : 'volume-high';
     const markNotificationAsDeleted = () => {
       if (fetcher) {
         fetcher.markNotificationAsDeleted(item.identifier);
@@ -211,6 +212,7 @@ const Inbox: FunctionComponent = () => {
         <View>
           <Pressable style={styles.itemContent} onPress={displayLandingMessage}>
             <Icon name={icon} size={20} />
+            <Icon name={silentIcon} size={20} />
             <View style={styles.item}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.price} numberOfLines={1}>
