@@ -15,9 +15,9 @@ For more information, please follow the react-native [documentation](https://rea
 
 This sample run on: 
 
-- React 17.0.2
-- React-native 0.66.2
-- Node : 16.2.0
+- React 19.1.1
+- React-native 0.82.1
+- Node >=20
 
 ### Installing
 

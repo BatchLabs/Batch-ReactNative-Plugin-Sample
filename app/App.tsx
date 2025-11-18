@@ -9,7 +9,6 @@
  */
 import React, {FunctionComponent} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {RecoilRoot} from 'recoil';
 import {BatchPush} from '@batch.com/react-native-plugin';
 import StackNavigator from './components/StackNavigator';
 import {initSuggestions} from './data/SettingsDatasource';
@@ -39,11 +38,9 @@ const App: FunctionComponent = () => {
   };
 
   return (
-    <RecoilRoot>
-      <NavigationContainer linking={linking}>
-        <StackNavigator />
-      </NavigationContainer>
-    </RecoilRoot>
+    <NavigationContainer linking={linking}>
+      <StackNavigator />
+    </NavigationContainer>
   );
 };
 

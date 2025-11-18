@@ -1,15 +1,14 @@
 import {BatchEventAttributes} from '@batch.com/react-native-plugin';
 import React, {FunctionComponent} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
-import {cartArticlesState} from '../recoil/cart/atoms';
+import {useCartStore} from '../store/cartStore';
 import Toast from 'react-native-simple-toast';
 import ArticlesDatasource from '../data/ArticlesDatasource';
 import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 
 const Article: FunctionComponent = ({route}) => {
-  const cartArticles = useRecoilValue(cartArticlesState);
-  const setCartArticles = useSetRecoilState(cartArticlesState);
+  const cartArticles = useCartStore(state => state.articles);
+  const addArticle = useCartStore(state => state.addArticle);
 
   // Get article from props
   let article = route.params.article;
@@ -30,7 +29,7 @@ const Article: FunctionComponent = ({route}) => {
     );
 
     // Adding article to the store
-    setCartArticles(oldCartArticles => [...oldCartArticles, article]);
+    addArticle(article);
 
     // Showing toast message
     Toast.show(`Added ${article.name} to the cart`, Toast.SHORT);
