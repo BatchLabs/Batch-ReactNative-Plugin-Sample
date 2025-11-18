@@ -10,9 +10,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useCartStore} from '../store/cartStore';
 import Article from '../models/Article';
-import {cartAmountState, cartArticlesState} from '../recoil/cart/atoms';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {BatchProfile} from '@batch.com/react-native-plugin/dist/BatchProfile';
 import {BatchEventAttributes} from '@batch.com/react-native-plugin';
@@ -39,13 +38,15 @@ const EmptyContainer: FunctionComponent = () => {
 };
 
 const Cart: FunctionComponent = () => {
-  const setCartArticles = useSetRecoilState(cartArticlesState);
-  const cartArticles = useRecoilValue(cartArticlesState);
-  const cartAmount = useRecoilValue(cartAmountState);
+  const cartArticles = useCartStore(state => state.articles);
+  const getCartAmount = useCartStore(state => state.getCartAmount);
+  const clearCartStore = useCartStore(state => state.clearCart);
   const navigation = useNavigation();
 
+  const cartAmount = getCartAmount();
+
   const clearCart = () => {
-    setCartArticles(() => []);
+    clearCartStore();
   };
 
   const checkout = () => {
