@@ -215,9 +215,28 @@ const Inbox: FunctionComponent = () => {
             <Icon name={silentIcon} size={20} />
             <View style={styles.item}>
               <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.price} numberOfLines={1}>
-                {item.body}
-              </Text>
+              <Text style={styles.price}>{item.body}</Text>
+              {item.isSilent && (
+                <Text style={styles.item}>Silent</Text>
+              )}
+              {item.isUnread && (
+                <Text style={styles.item}>isUnread</Text>
+              )}
+              {item.hasLandingMessage && (
+                <Text style={styles.item}>Has Landing Message</Text>
+              )}
+              {item.deeplink && (
+                <Text style={styles.item}>{item.deeplink}</Text>
+              )}
+              {item.androidBigPicture && (
+                <Text style={styles.item}>{item.androidBigPicture}</Text>
+              )}
+              {item.androidCustomLargeIcon && (
+                <Text style={styles.item}>{item.androidCustomLargeIcon}</Text>
+              )}
+              {item.iOSAttachmentURL && (
+                <Text style={styles.item}>{item.iOSAttachmentURL}</Text>
+              )}
             </View>
           </Pressable>
         </View>
